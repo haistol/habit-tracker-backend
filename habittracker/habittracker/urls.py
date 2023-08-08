@@ -24,7 +24,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls')),
     path('habits/', HabitsListView.as_view(), name='habit-list'),
-    path('habit/<int:id>/', HabitView.as_view(), name='habit-detail'),
+    path('habit/<int:id>/', HabitView.as_view(http_method_names=['get']), name='habit-detail'),
+    path('habit/<int:id>/update/', HabitView.as_view(http_method_names=['get','put']), name='habit-update'),
+    path('habit/<int:id>/delete/', HabitView.as_view(http_method_names=['get','delete']), name='habit-delete'),
     path('habit/create/', HabitCreateView.as_view(), name='habit-create'),
 
 ]

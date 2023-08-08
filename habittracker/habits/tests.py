@@ -44,7 +44,7 @@ class HabitTestCase(TestCase):
         user = User.objects.create_user(username='testuser', password='12345')
         habit = Habit.objects.create(user=user, name='test habit', periodicity=Habit.Period.DAILY)
         self.client.login(username='testuser', password='12345')
-        response = self.client.put(f'/habit/{habit.id}/',
+        response = self.client.put(f'/habit/{habit.id}/update/',
                                    {'name': 'test habit updated', 'periodicity': Habit.Period.WEEKLY},
                                    content_type='application/json')
         self.assertEqual(response.status_code, 200)
