@@ -8,7 +8,8 @@ from habits.utils import create_habit_active_task
 
 
 class HabitView(RetrieveUpdateDestroyAPIView):
-    """A viewset for viewing habits."""
+    """A view for viewing, updating and deleting habits."""
+
     queryset = Habit.objects.all()
     lookup_field = "id"
     serializer_class = HabitSerializer
@@ -19,9 +20,7 @@ class HabitView(RetrieveUpdateDestroyAPIView):
         return Response(serializer.data)
 
     def update(self, request, *args, **kwargs):
-        print("paso")
         habit = self.get_object()
-        print(habit.name)
         serializer = HabitUpdateSerializer(habit, data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
@@ -30,16 +29,16 @@ class HabitView(RetrieveUpdateDestroyAPIView):
         return Response(output_serializer.data)
 
 class HabitsListView(ListAPIView):
-    """A viewset for viewing habits."""
+    """A view to list all the user active habits"""
     serializer_class = HabitSerializer
 
     def get_queryset(self):
         user = self.request.user
-        return Habit.objects.filter(user=user)
+        return Habit.objects.filter(user=user, is_active=True)
 
 
 class HabitCreateView(CreateAPIView):
-    """A viewset for creating habits."""
+    """A view for creating new habits."""
     serializer_class = HabitSerializer
 
     def create(self, request, *args, **kwargs):
