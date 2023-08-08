@@ -17,14 +17,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.shortcuts import redirect
-from habits.views import HabitView, HabitsListView,HabitCreateView
-
+from habits.views import HabitView, HabitsListView, HabitCreateView
 
 urlpatterns = [
     path('', lambda request: redirect('habits/')),
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls')),
-    path('habits/',HabitsListView.as_view(), name='habit-list'),
+    path('habits/', HabitsListView.as_view(), name='habit-list'),
     path('habit/<int:id>/', HabitView.as_view(), name='habit-detail'),
     path('habit/create/', HabitCreateView.as_view(), name='habit-create'),
 

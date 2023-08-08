@@ -21,23 +21,24 @@ class Habit(models.Model):
     def __str__(self):
         return self.name
 
-    def to_representation(self, instance):
-        """Custom representation for the habit model."""
-        representation = super().to_representation(instance)
-        representation['periodicity'] = Habit.Period(representation['periodicity']).label
-        return representation
-
 
 class TaskTracker(models.Model):
     """A model to track the completion of a habit on a given date."""
+
+    class Status(models.IntegerChoices):
+        PENDING = 1
+        DONE = 2
+        PAST_DUE = 3
+
     habit = models.ForeignKey(Habit, related_name="tasks", related_query_name="tasks", on_delete=models.CASCADE)
     due_date = models.DateField()
-    done = models.BooleanField(default=False)
+    status = models.IntegerField(choices=Status.choices, default=Status.PENDING)
     completed_at = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
         return f'{self.habit.name} - {self.date}'
 
     @property
-    def done_on_time(self):
-        return self.completed_at.date() <= self.due_date
+    def on_time(self):
+        """Return True if the task is not past due."""
+        return not self.status == TaskTracker.Status.PAST_DUE
