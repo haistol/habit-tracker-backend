@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.shortcuts import redirect
 from habits.views import HabitView, HabitsListView, HabitCreateView
+from analytics.views import AnalyticsHabitsListView, HabitLongestStreakView
 
 urlpatterns = [
     path('', lambda request: redirect('habits/')),
@@ -28,5 +29,8 @@ urlpatterns = [
     path('habit/<int:id>/update/', HabitView.as_view(http_method_names=['get','put']), name='habit-update'),
     path('habit/<int:id>/delete/', HabitView.as_view(http_method_names=['get','delete']), name='habit-delete'),
     path('habit/create/', HabitCreateView.as_view(), name='habit-create'),
+    path('habit/<int:id>/task-complete/', HabitView.as_view(http_method_names=['post']), name='habit-task-complete'),
+    path('analytics/habits/', AnalyticsHabitsListView.as_view(), name='analytics-habit-list'),
+    path('analytics/habits/longest-streak/', HabitLongestStreakView.as_view(), name='analytics-habit-longest-streak'),
 
 ]
