@@ -1,6 +1,6 @@
-from django.contrib.auth.models import User
 from rest_framework.response import Response
-from rest_framework.generics import RetrieveAPIView, ListAPIView, CreateAPIView, RetrieveUpdateDestroyAPIView
+from rest_framework.generics import RetrieveAPIView, ListAPIView, CreateAPIView, RetrieveUpdateDestroyAPIView, \
+    GenericAPIView
 from habits.models import Habit, TaskTracker
 
 from habits.serializers import HabitSerializer, HabitCreateSerializer, HabitUpdateSerializer
@@ -8,7 +8,7 @@ from habits.utils import create_habit_active_task
 
 
 class HabitView(RetrieveUpdateDestroyAPIView):
-    """A view for viewing, updating and deleting habits."""
+    """A view for viewing, updating and deleting a habit."""
 
     queryset = Habit.objects.all()
     lookup_field = "id"
@@ -27,6 +27,7 @@ class HabitView(RetrieveUpdateDestroyAPIView):
         habit.refresh_from_db()
         output_serializer = HabitSerializer(habit)
         return Response(output_serializer.data)
+
 
 class HabitsListView(ListAPIView):
     """A view to list all the user active habits"""
@@ -49,13 +50,12 @@ class HabitCreateView(CreateAPIView):
         ouput_serializer = self.get_serializer(habit)
         return Response(ouput_serializer.data, status=201)
 
-class HabitTaskTrackerView(RetrieveAPIView):
-    """A viewset for viewing habits."""
-    queryset = TaskTracker.objects.all()
-    lookup_field = "id"
-    serializer_class = HabitSerializer
 
-    def retrieve(self, request, *args, **kwargs):
-        instance = self.get_object()
-        serializer = HabitSerializer(instance)
-        return Response(serializer.data)
+class HabitTaskTrackerView(GenericAPIView):
+    """A views for setting a task as done"""
+
+    def post(self, request, *args, **kwargs):
+        task = TaskTracker.objects.get(id=kwargs['id'], habit__user=request.user)
+        task.status = TaskTracker.Status.DONE
+        task.save()
+        return Response({'status': 'success'}, status=200)

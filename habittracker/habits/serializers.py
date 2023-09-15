@@ -18,13 +18,6 @@ class HabitSerializer(serializers.ModelSerializer):
 
         return None
 
-    def update(self, instance, validated_data):
-        instance.name = validated_data.get('name', instance.name)
-        instance.periodicity = validated_data.get('periodicity', instance.periodicity)
-        instance.is_active = validated_data.get('is_active', instance.is_active)
-        instance.save()
-        return instance
-
 
 class HabitUpdateSerializer(serializers.ModelSerializer):
     periodicity = serializers.ChoiceField(choices=Habit.Period.choices)
@@ -52,3 +45,4 @@ class HabitCreateSerializer(serializers.ModelSerializer):
         user = self.context['request'].user
         habit = Habit.objects.create(user=user, **validated_data)
         return habit
+
