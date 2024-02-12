@@ -13,8 +13,8 @@ def create_habit_active_task(habit: Habit):
     if habit.tasks.all().exists():
         base_date = habit.tasks.all().order_by('-due_date').first().due_date
     else:
-        base_date = datetime.today()
-    if datetime.today().date() < base_date.date():
+        base_date = datetime.today().date()
+    if datetime.today().date() < base_date:
         return
 
     due_date = base_date
