@@ -18,9 +18,8 @@ the app, and it is meant to be used as the backend for a mobile app.
 * Clone the repository
 * entry the project folder
 * Install the dependencies: `pip install -r requirements.txt`
-* Run the migrations: `python manage.py migrate`
-* Create a superuser: `python manage.py createsuperuser`
-
+* Run the migrations: `python ./manage.py migrate`
+* Create sample user and data: `python ./manage.py load_sample_data`
 
 
 ### Executing program
@@ -35,6 +34,11 @@ python manage.py test
 ```
 To access the api, you can use the following urls (replace `<int:id>` with the id of the habit you want to see):
 
+Sample data login credentials.
+username: `habit-user`
+password: `habittest123` 
+
+#### Endpoints:
 * for a list of your active habits:  http://localhost:8000/habits/
 * to see one habit: http://localhost:8000/habit/<int:id>/
 * to update some of the info of the habit: http://localhost:8000/habit/<int:id>/update/
