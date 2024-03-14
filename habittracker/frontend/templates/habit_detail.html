@@ -1,0 +1,26 @@
+<!-- templates/habit_detail.html -->
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Habit Detail</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+<div class="container">
+    <h1>Habit Detail</h1>
+    <ul>
+        <li><strong>Name:</strong> {{ habit.name }}</li>
+        <li><strong>Periodicity:</strong> {{ habit.periodicity }}</li>
+        <li><strong>Created At:</strong> {{ habit.created_at }}</li>
+        <li><strong>Is Active:</strong> {% if habit.is_active %}Yes{% else %}No{% endif %}</li>
+        <li><strong>Current Period Due Date:</strong> {{ habit.current_period_due_date }}</li>
+
+        <a href="{% url 'habit-update' habit.id %}">Update</a>
+        <a href="{% url 'habit-delete' habit.id %}">Delete</a>
+    </ul>
+</div>
+</body>
+</html>

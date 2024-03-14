@@ -1,0 +1,24 @@
+<!-- habit_update.html -->
+
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Habit</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+<div class="container">
+    <h1>Update Habit</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.name.label_tag }} {{ form.name }}<br>
+        {{ form.periodicity.label_tag }} {{ form.periodicity }}<br>
+        {{ form.is_active.label_tag }} {{ form.is_active }}<br>
+        <button type="submit">Update</button>
+    </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!-- longest_streak.html -->
+
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Longest Streak</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+<div class="analytic-container">
+    <h1>Longest Streak</h1>
+    <form method="get" class="filter-form">
+        <label for="habit_id">Filter by Habit ID:</label>
+        <input type="text" id="habit_id" name="habit_id" placeholder="Enter Habit ID">
+        <button type="submit">Filter</button>
+    </form>
+    <table>
+        <thead>
+        <tr>
+            <th>Habit ID</th>
+            <th>Habit Name</th>
+            <th>Streak</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for data in longest_streak_data %}
+        <tr>
+            <td>{{ data.id }}</td>
+            <td>{{ data.name }}</td>
+            <td>{{ data.longest_streak }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

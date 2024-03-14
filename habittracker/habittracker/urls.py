@@ -16,21 +16,33 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from django.shortcuts import redirect
 from habits.views import HabitView, HabitsListView, HabitCreateView
 from analytics.views import AnalyticsHabitsListView, HabitLongestStreakView
+from frontend.views import user_login, habits_list, habit_detail, habit_update, habit_delete, habit_create, \
+    habit_analytics, index, longest_streak
 
 urlpatterns = [
-    path('', lambda request: redirect('habits/')),
+    path('', index, name='index'),
+    path('login/', user_login, name='login'),
+    path('habits/', habits_list, name='habits-list'),
     path('admin/', admin.site.urls),
+    path('habits/<int:habit_id>/', habit_detail, name='habit-detail'),
+    path('habits/<int:habit_id>/update/', habit_update, name='habit-update'),
+    path('habits/<int:habit_id>/delete/', habit_delete, name='habit-delete'),
+    path('habits/create/', habit_create, name='habit-create'),
+    path('analytics/habits/', habit_analytics, name='habit-analytics'),
+    path('analytics/habits/longest-streak/', longest_streak, name='longest-streak'),
+
     path('api-auth/', include('rest_framework.urls')),
-    path('habits/', HabitsListView.as_view(), name='habit-list'),
-    path('habit/<int:id>/', HabitView.as_view(http_method_names=['get']), name='habit-detail'),
-    path('habit/<int:id>/update/', HabitView.as_view(http_method_names=['get','put']), name='habit-update'),
-    path('habit/<int:id>/delete/', HabitView.as_view(http_method_names=['get','delete']), name='habit-delete'),
-    path('habit/create/', HabitCreateView.as_view(), name='habit-create'),
-    path('habit/<int:id>/task-complete/', HabitView.as_view(http_method_names=['post']), name='habit-task-complete'),
-    path('analytics/habits/', AnalyticsHabitsListView.as_view(), name='analytics-habit-list'),
-    path('analytics/habits/longest-streak/', HabitLongestStreakView.as_view(), name='analytics-habit-longest-streak'),
+    path('api/habits/', HabitsListView.as_view(), name='habit-list-api'),
+    path('api/habit/<int:id>/', HabitView.as_view(http_method_names=['get']), name='habit-detail-api'),
+    path('api/habit/<int:id>/update/', HabitView.as_view(http_method_names=['get', 'put']), name='habit-update-api'),
+    path('api/habit/<int:id>/delete/', HabitView.as_view(http_method_names=['get', 'delete']), name='habit-delete-api'),
+    path('api/habit/create/', HabitCreateView.as_view(), name='habit-create-api'),
+    path('api/habit/<int:id>/task-complete/', HabitView.as_view(http_method_names=['post']),
+         name='habit-task-complete'),
+    path('api/analytics/habits/', AnalyticsHabitsListView.as_view(), name='analytics-habit-list-api'),
+    path('api/analytics/habits/longest-streak/', HabitLongestStreakView.as_view(),
+         name='analytics-habit-longest-streak-api'),
 
 ]

@@ -1,0 +1,49 @@
+<!-- habit_analytics.html -->
+
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Habit Analytics</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+<div class="analytic-container">
+    <h1>Habit Analytics</h1>
+    <form method="get">
+        <label for="periodicity">Periodicity:</label>
+        <select name="periodicity" id="periodicity">
+            <option value="">All</option>
+            <option value="Daily">Daily</option>
+            <option value="Weekly">Weekly</option>
+            <option value="Monthly">Monthly</option>
+        </select>
+        <button type="submit">Filter</button>
+    </form>
+    <table>
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Periodicity</th>
+            <th>Created At</th>
+            <th>Active</th>
+            <th>Streak</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for habit in habits_analytics %}
+        <tr>
+            <td>{{ habit.name }}</td>
+            <td>{{ habit.periodicity }}</td>
+            <td>{{ habit.created_at }}</td>
+            <td>{{ habit.is_active }}</td>
+            <td>{{ habit.streak }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
